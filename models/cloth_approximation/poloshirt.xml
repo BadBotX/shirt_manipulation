@@ -1,0 +1,62 @@
+<mujoco model="cloth">
+    <extension>
+        <plugin plugin="mujoco.elasticity.shell"/>
+    </extension>
+
+    <worldbody>
+    <body name="cloth">
+        <body name="cloth_body_main" pos="0 0 0">
+            <site name="body_left_edge" pos="0 0 0" />
+            <site name="body_right_edge" pos="0 0 0" />
+            <flexcomp type="grid" count="20 25 1" spacing=".025 .025 .025" mass="0.2" rgba="1 0 0 1"
+                      name="main_cloth" radius="0.002"> 
+                <contact condim="6" solref="0.001" contype="0" conaffinity="1"/>
+                <edge equality="true" damping="0.1"/>
+                <plugin plugin="mujoco.elasticity.shell">
+                    <config key="poisson" value="0"/>
+                    <config key="thickness" value="0.01"/>
+                    <!--Units are in Pa (SI)-->
+                    <config key="young" value="3e4"/>
+                </plugin>
+            </flexcomp>
+        </body>
+
+        <body name="right_sleeve_body" pos="0.32 0.188 0" >
+        <site name="sleeve_right_attach" pos="0 0 0" />
+            <flexcomp type="grid" count="8 10 1" spacing=".025 .025 .025" mass="0.2" rgba="0 0 1 1"
+                      name="right_sleeve" radius="0.002" pos="0.0 0 0"> 
+
+                <contact condim="6" solref="0.001" contype="0" conaffinity="1"/>
+                <edge equality="true" damping="0.1"/>
+                <plugin plugin="mujoco.elasticity.shell">
+                    <config key="poisson" value="0"/>
+                    <config key="thickness" value="0.01"/>
+                    <!--Units are in Pa (SI)-->
+                    <config key="young" value="3e4"/>
+                </plugin>
+            </flexcomp>
+        </body>
+
+        <body name="left_sleeve_body" pos="-0.32 0.188 0" >
+        <site name="sleeve_left_attach" pos="0 0 0" />
+            <flexcomp type="grid" count="8 10 1" spacing=".025 .025 .025" mass="0.2" rgba="0 0 1 1"
+                      name="left_sleeve" radius="0.002" pos="0.0 0 0"> 
+                <contact condim="6" solref="0.001" contype="0" conaffinity="1"/>
+                <edge equality="true" damping="0.1"/>
+                <plugin plugin="mujoco.elasticity.shell">
+                    <config key="poisson" value="0"/>
+                    <config key="thickness" value="0.01"/>
+                    <!--Units are in Pa (SI)-->
+                    <config key="young" value="3e4"/>
+                </plugin>
+            </flexcomp>
+        </body>
+
+        </body>
+    </worldbody>
+
+    <equality>
+        <connect body1="left_sleeve_79" body2="main_cloth_341" active="true" anchor="0.005 0 0" solref="0.01 1" solimp="0.99 0.99 0.001 0.5 2" />
+    </equality>
+
+</mujoco>
